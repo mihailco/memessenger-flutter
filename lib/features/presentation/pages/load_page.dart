@@ -1,17 +1,28 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:statrco/features/presentation/cubit/onAppStarted/started_cubit.dart';
-import 'package:statrco/features/presentation/cubit/onAppStarted/started_state.dart';
-import 'package:statrco/features/presentation/pages/auth.dart';
 import 'package:statrco/features/presentation/widgets/gradient_text.dart';
 
-class Loading extends StatelessWidget {
-  const Loading({Key? key}) : super(key: key);
+class LoadPage extends StatefulWidget {
+  const LoadPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoadPage> createState() => _LoadPageState();
+}
+
+class _LoadPageState extends State<LoadPage> {
+  @override
   
+  void initState() {
+    //TODO add check jwt 
+    super.initState();
+    if(true){
+    Future.delayed(const Duration(seconds : 1), ()=>Navigator.pushNamed(context, '/auth'));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    context.read<startedCubit>().chekJWT();
     return Container(
       decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -27,7 +38,7 @@ class Loading extends StatelessWidget {
           children: [
             Expanded(
               child: Center(
-                child: Container(
+                child: SizedBox(
                     height: min(MediaQuery.of(context).size.height,
                             MediaQuery.of(context).size.width) /
                         1.7,
@@ -48,7 +59,10 @@ class Loading extends StatelessWidget {
         ),
       ),
     );
-    
+  }
+}
+
+
     // BlocBuilder<startedCubit, startedState>(
     //   builder: (context, state) {
     //     if (state is authInState ||state is authUpState) {
@@ -58,5 +72,4 @@ class Loading extends StatelessWidget {
     //     return  AuthPage();//TODO change on load
     //   },
     // );
-  }
-}
+  

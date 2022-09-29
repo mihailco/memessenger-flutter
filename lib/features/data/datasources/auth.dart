@@ -1,8 +1,16 @@
+import 'dart:convert';
+
 import 'package:statrco/features/data/constants.dart';
 import 'package:statrco/features/data/exception.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/user_model.dart'; // as http;
+
+class _Token {
+  String fromJson(Map<String, dynamic> json) {
+    return json['token'];
+  }
+}
 
 abstract class MyApi {
   // getUsers();
@@ -19,14 +27,12 @@ class MyApiImpl implements MyApi {
   @override
   Future<String> signInWithUsername(String password, String username) async {
     final resp = await client.post(Uri.parse(Urls.signIn),
-    headers: {'Content-type' : 'application/json'},
-        body: SignInNodel(password: password, username: username).toJSON()
-        );
+        headers: {'Content-type': 'application/json'},
+        body: SignInModel(password: password, username: username).toJSON());
     if (resp.statusCode == 200) {
-      return resp.body;
+      return _Token().fromJson(jsonDecode(resp.body));
     } else {
-      print(resp.statusCode);
-      throw ServerException();
+      throw ServerException(resp.statusCode);
     }
   }
 
