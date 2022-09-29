@@ -15,7 +15,7 @@ class _Token {
 abstract class MyApi {
   // getUsers();
   Future<String> signInWithUsername(String password, String username);
-  int signUp();
+  Future<String> signUp(String username, String password, String firstname, String? lastname, String? imageUrl, String? status);
   // sendMessage();
   // getMessages();
 }
@@ -37,8 +37,14 @@ class MyApiImpl implements MyApi {
   }
 
   @override
-  int signUp() {
-    // TODO: implement signUp
-    throw UnimplementedError();
+  Future<String> signUp(String username, String password, String firstname, String? lastname, String? imageUrl, String? status) async{
+    final resp = await client.post(Uri.parse(Urls.signUp),
+        headers: {'Content-type': 'application/json'},
+        body: SignUpModel(firstname: firstname, lastname: lastname, password: password, phone: "", status: status, imageUrl: imageUrl, username: username).toJSON());
+    if (resp.statusCode == 200) {
+      return _Token().fromJson(jsonDecode(resp.body));
+    } else {
+      throw ServerException(resp.statusCode);
+    }
   }
 }

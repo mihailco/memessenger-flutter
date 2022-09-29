@@ -8,7 +8,7 @@ void main() {
   final password = "qwerty3";
 
   test("проверка toJson у signIn модели", (){
-    final result = SignInNodel(password: password, username: username).toJSON();
+    final result = SignInModel(password: password, username: username).toJSON();
     final expectedJson = jsonEncode({
       "username": username,
       "password": password,

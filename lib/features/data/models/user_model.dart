@@ -21,7 +21,7 @@ class SignUpModel extends Sign_up_user  {
           imageUrl: imageUrl,
         );
 
-  Map toJSON() => {
+  String toJSON() =>jsonEncode( {
         'firstname': firstname,
         'lastname': lastname,
         'password': password,
@@ -29,7 +29,7 @@ class SignUpModel extends Sign_up_user  {
         'phone': phone,
         'status': status,
         'imageUrl': imageUrl,
-      };
+      });
 }
 
 class SignInModel extends Sign_in_user {
